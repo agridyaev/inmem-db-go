@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"errors"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -96,4 +97,23 @@ func TestHandleDelQuery(t *testing.T) {
 
 	res := database.HandleQuery(ctx, "DEL one")
 	assert.Equal(t, res, "[ok]")
+}
+
+func TestInvalidCommand(t *testing.T) {
+	ctx := context.WithValue(context.Background(), "tx", int64(555))
+
+	ctrl := gomock.NewController(t)
+	computeLayer := NewMockcomputeLayer(ctrl)
+	computeLayer.EXPECT().
+		HandleQuery(ctx, "TRUNCATE").
+		Return(compute.Query{}, errors.New("invalid command"))
+
+	storageLayer := NewMockstorageLayer(ctrl)
+
+	database, err := NewDatabase(computeLayer, storageLayer, zap.NewNop())
+	require.NoError(t, err)
+	require.NotNil(t, database)
+
+	res := database.HandleQuery(ctx, "TRUNCATE")
+	assert.Equal(t, res, "[error] invalid command")
 }
