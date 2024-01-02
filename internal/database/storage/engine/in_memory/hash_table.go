@@ -1,5 +1,9 @@
 package in_memory
 
+var HashTableBuilder = func() hashTable {
+	return NewHashTable()
+}
+
 type HashTable struct {
 	data map[string]string
 }
