@@ -33,13 +33,13 @@ func TestNewDatabase(t *testing.T) {
 }
 
 func TestHandleSetQuery(t *testing.T) {
-	ctx := context.Background()
+	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
 	computeLayer := NewMockcomputeLayer(ctrl)
 	computeLayer.EXPECT().
 		HandleQuery(ctx, "SET one 1").
-		Return(compute.NewQuery(compute.SetCommandID, []string{"SET", "one", "1"}), nil)
+		Return(compute.NewQuery(compute.SetCommandID, []string{"one", "1"}), nil)
 
 	storageLayer := NewMockstorageLayer(ctrl)
 	storageLayer.EXPECT().
@@ -51,5 +51,49 @@ func TestHandleSetQuery(t *testing.T) {
 	require.NotNil(t, database)
 
 	res := database.HandleQuery(ctx, "SET one 1")
+	assert.Equal(t, res, "[ok]")
+}
+
+func TestHandleGetQuery(t *testing.T) {
+	ctx := context.WithValue(context.Background(), "tx", int64(555))
+
+	ctrl := gomock.NewController(t)
+	computeLayer := NewMockcomputeLayer(ctrl)
+	computeLayer.EXPECT().
+		HandleQuery(ctx, "GET one").
+		Return(compute.NewQuery(compute.GetCommandID, []string{"one"}), nil)
+
+	storageLayer := NewMockstorageLayer(ctrl)
+	storageLayer.EXPECT().
+		Get(ctx, "one").
+		Return("1", nil)
+
+	database, err := NewDatabase(computeLayer, storageLayer, zap.NewNop())
+	require.NoError(t, err)
+	require.NotNil(t, database)
+
+	res := database.HandleQuery(ctx, "GET one")
+	assert.Equal(t, res, "[ok] 1")
+}
+
+func TestHandleDelQuery(t *testing.T) {
+	ctx := context.WithValue(context.Background(), "tx", int64(555))
+
+	ctrl := gomock.NewController(t)
+	computeLayer := NewMockcomputeLayer(ctrl)
+	computeLayer.EXPECT().
+		HandleQuery(ctx, "DEL one").
+		Return(compute.NewQuery(compute.DelCommandID, []string{"one"}), nil)
+
+	storageLayer := NewMockstorageLayer(ctrl)
+	storageLayer.EXPECT().
+		Del(ctx, "one").
+		Return(nil)
+
+	database, err := NewDatabase(computeLayer, storageLayer, zap.NewNop())
+	require.NoError(t, err)
+	require.NotNil(t, database)
+
+	res := database.HandleQuery(ctx, "DEL one")
 	assert.Equal(t, res, "[ok]")
 }

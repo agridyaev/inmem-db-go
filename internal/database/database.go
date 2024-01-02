@@ -47,15 +47,6 @@ func NewDatabase(computeLayer computeLayer, storageLayer storageLayer, logger *z
 }
 
 func (d *Database) HandleQuery(ctx context.Context, queryStr string) string {
-	txID := d.idGenerator.Generate()
-	ctx = context.WithValue(ctx, "tx", txID)
-
-	d.logger.Debug(
-		"handling query",
-		zap.Int64("tx", txID),
-		zap.String("query", queryStr),
-	)
-
 	query, err := d.computeLayer.HandleQuery(ctx, queryStr)
 	if err != nil {
 		return fmt.Sprintf("[error] %s", err.Error())
@@ -70,7 +61,6 @@ func (d *Database) HandleQuery(ctx context.Context, queryStr string) string {
 		return d.handleDelQuery(ctx, query)
 	}
 
-	d.logger.Error("compute layer is incorrect", zap.Int64("tx", txID))
 	return "[error] internal configuration error"
 }
 
