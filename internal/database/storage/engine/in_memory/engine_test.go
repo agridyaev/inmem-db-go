@@ -11,6 +11,8 @@ import (
 // mockgen -source=engine.go -destination=engine_mock.go -package=in_memory
 
 func TestNewEngine(t *testing.T) {
+	t.Parallel()
+
 	tableBuilder := func() hashTable {
 		ctrl := gomock.NewController(t)
 		return NewMockhashTable(ctrl)
@@ -22,6 +24,8 @@ func TestNewEngine(t *testing.T) {
 }
 
 func TestSetQuery(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	tableBuilder := func() hashTable {
@@ -38,6 +42,8 @@ func TestSetQuery(t *testing.T) {
 }
 
 func TestGetQuery(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	tableBuilder := func() hashTable {
@@ -61,6 +67,8 @@ func TestGetQuery(t *testing.T) {
 }
 
 func TestDelQuery(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	tableBuilder := func() hashTable {

@@ -11,6 +11,8 @@ import (
 // mockgen -source=storage.go -destination=storage_mock.go -package=storage
 
 func TestNewStorage(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	engine := NewMockEngine(ctrl)
 
@@ -28,6 +30,8 @@ func TestNewStorage(t *testing.T) {
 }
 
 func TestSetWithCanceledContext(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 	ctxWithCancel, cancel := context.WithCancel(ctx)
 	cancel()
@@ -43,6 +47,8 @@ func TestSetWithCanceledContext(t *testing.T) {
 }
 
 func TestSuccessfulSet(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -58,6 +64,8 @@ func TestSuccessfulSet(t *testing.T) {
 }
 
 func TestGetWithCanceledContext(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 	ctxWithCancel, cancel := context.WithCancel(ctx)
 	cancel()
@@ -74,6 +82,8 @@ func TestGetWithCanceledContext(t *testing.T) {
 }
 
 func TestSuccessfulGet(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -90,6 +100,8 @@ func TestSuccessfulGet(t *testing.T) {
 }
 
 func TestDelWithCanceledContext(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 	ctxWithCancel, cancel := context.WithCancel(ctx)
 	cancel()
@@ -105,6 +117,8 @@ func TestDelWithCanceledContext(t *testing.T) {
 }
 
 func TestSuccessfulDel(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)

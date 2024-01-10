@@ -23,6 +23,8 @@ func TestSet(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			table.Set(tc.key, tc.value)
 
 			value, found := table.data[tc.key]
@@ -51,6 +53,8 @@ func TestGet(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			value, found := table.Get(tc.key)
 
 			require.Equal(t, tc.expectedValue, value)
@@ -76,6 +80,8 @@ func TestDel(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			table.Del(tc.key)
 
 			_, found := table.data[tc.key]

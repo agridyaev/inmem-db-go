@@ -12,6 +12,8 @@ import (
 )
 
 func TestNewDatabase(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	computeLayer := NewMockcomputeLayer(ctrl)
 	storageLayer := NewMockstorageLayer(ctrl)
@@ -34,6 +36,8 @@ func TestNewDatabase(t *testing.T) {
 }
 
 func TestHandleSetQuery(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -56,6 +60,8 @@ func TestHandleSetQuery(t *testing.T) {
 }
 
 func TestHandleGetQuery(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -78,6 +84,8 @@ func TestHandleGetQuery(t *testing.T) {
 }
 
 func TestHandleDelQuery(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -100,6 +108,8 @@ func TestHandleDelQuery(t *testing.T) {
 }
 
 func TestInvalidCommand(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)

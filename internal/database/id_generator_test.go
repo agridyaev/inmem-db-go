@@ -6,11 +6,15 @@ import (
 )
 
 func TestCreateIDGenerator(t *testing.T) {
+	t.Parallel()
+
 	generator := NewIDGenerator()
 	require.Equal(t, int64(0), generator.counter.Load())
 }
 
 func TestGenerateID(t *testing.T) {
+	t.Parallel()
+
 	generator := NewIDGenerator()
 
 	id := generator.Generate()

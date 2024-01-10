@@ -49,6 +49,8 @@ func TestParser(t *testing.T) {
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			parser, err := NewParser(zap.NewNop())
 			require.NoError(t, err)
 

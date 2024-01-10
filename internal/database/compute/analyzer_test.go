@@ -66,6 +66,8 @@ func TestAnalyzeQuery(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			query, err := analyzer.AnalyzeQuery(ctx, tc.tokens)
 
 			assert.Equal(t, tc.query, query)
@@ -108,6 +110,8 @@ func TestAnalyzeSetQuery(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			err := analyzer.analyzeSetQuery(ctx, tc.query)
 
 			assert.Equal(t, tc.err, err)
@@ -144,6 +148,8 @@ func TestAnalyzeGetQuery(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			err := analyzer.analyzeGetQuery(ctx, tc.query)
 
 			assert.Equal(t, tc.err, err)
@@ -180,6 +186,8 @@ func TestAnalyzeDelQuery(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			err := analyzer.analyzeDelQuery(ctx, tc.query)
 
 			assert.Equal(t, tc.err, err)

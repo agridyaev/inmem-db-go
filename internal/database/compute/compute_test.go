@@ -11,6 +11,8 @@ import (
 // mockgen -source=compute.go -destination=compute_mock.go -package=compute
 
 func TestNewCompute(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	parser := NewMockparser(ctrl)
 	analyzer := NewMockanalyzer(ctrl)
@@ -33,6 +35,8 @@ func TestNewCompute(t *testing.T) {
 }
 
 func TestHandleQueryWithCancel(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -51,6 +55,8 @@ func TestHandleQueryWithCancel(t *testing.T) {
 }
 
 func TestHandleQueryWithParsingError(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -69,6 +75,8 @@ func TestHandleQueryWithParsingError(t *testing.T) {
 }
 
 func TestHandleQueryWithAnalyzingError(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
@@ -90,6 +98,8 @@ func TestHandleQueryWithAnalyzingError(t *testing.T) {
 }
 
 func TestHandleQuery(t *testing.T) {
+	t.Parallel()
+
 	ctx := context.WithValue(context.Background(), "tx", int64(555))
 
 	ctrl := gomock.NewController(t)
